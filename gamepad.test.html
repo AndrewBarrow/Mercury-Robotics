@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+ 
+    </head>
+    <body>
+ 
+    <div id="gamepadPrompt"></div>
+    <div id="gamepadDisplay"></div>
+ 
+    <script>
+
+/*
+for sendkey
+ABXYUDLR and BSLbRbL3R3 are all the digital buttons packed into two bytes
+LX,LY,LT,RX,RY,RT are all the analog values rouned off to 3 digits (the library maps them between -1 and 1)
+
+*/
+
+// */
+    var hasGP = false;
+    var repGP;
+ 
+    function canGame() {
+        return "getGamepads" in navigator;
+    }
+ 
+    function reportOnGamepad() {
+        var gp = navigator.getGamepads()[0];
+var ABXYUDLR = 0x00;
+var BSLbRbL3R3 = 0x00;
+var A = gp.buttons[0].pressed;
+var B = gp.buttons[1].pressed;
+var X = gp.buttons[2].pressed;
+var Y = gp.buttons[3].pressed;
+var LB = gp.buttons[4].pressed;
+var RB = gp.buttons[5].pressed;
+var LT = Math.round(gp.buttons[6].value*1000)/1000;
+var RT = Math.round(gp.buttons[7].value*1000)/1000;
+var BACK = gp.buttons[8].pressed;
+var START = gp.buttons[9].pressed;
+var L3 = gp.buttons[10].pressed;
+var R3 = gp.buttons[11].pressed;
+var UP = gp.buttons[12].pressed;
+var DOWN = gp.buttons[13].pressed;
+var LEFT = gp.buttons[14].pressed;
+var RIGHT = gp.buttons[15].pressed;
+//button[16];  //i think this is the xbox button, which is basically unussable because it switches the context
+var LX = Math.round(gp.axes[0]*1000)/1000; //Left max =-1 Right max = 1 
+var LY = Math.round(gp.axes[1]*1000)/1000; //Up max = -1  Down max = 1
+var RX = Math.round(gp.axes[2]*1000)/1000; //Left max =-1 Right max = 1
+var RY = Math.round(gp.axes[3]*1000)/1000; //Up max = -1  Down max = 1
+        var html = "";
+            html += "id: "+gp.id+"<br/>";
+ 
+        for(var i=0;i<gp.buttons.length;i++) {
+            html+= "Button "+(i)+": ";
+            html+= gp.buttons[i].value;
+            html+= "<br/>";
+        }
+ 
+        for(var i=0;i<gp.axes.length; i+=2) {
+            html+= "Stick "+(Math.ceil(i/2)+1)+": "+gp.axes[i]+","+gp.axes[i+1]+"<br/>";
+        }
+		if(A||B||X||Y||UP||DOWN||LEFT||RIGHT)
+		{
+			if(A){ABXYUDLR |=      0b10000000;}
+			if(B){ABXYUDLR |=     0b01000000;}
+			if(X){ABXYUDLR |=     0b00100000;}
+			if(Y){ABXYUDLR |=     0b00010000;}
+			if(UP){ABXYUDLR |=    0b00001000;}
+			if(DOWN){ABXYUDLR |=  0b00000100;}
+			if(LEFT){ABXYUDLR |=  0b00000010;}
+			if(RIGHT){ABXYUDLR |= 0b00000001;}
+		}
+		else {ABXYUDLR=0x00;}
+		if(BACK||START||LB||RB||L3||R3)
+		{
+			if(BACK){BSLbRbL3R3 |=     0b00100000;}
+			if(START){BSLbRbL3R3 |=     0b00010000;}
+			if(LB){BSLbRbL3R3 |=    0b00001000;}
+			if(RB){BSLbRbL3R3 |=  0b00000100;}
+			if(L3){BSLbRbL3R3 |=  0b00000010;}
+			if(R3){BSLbRbL3R3 |= 0b00000001;}
+		}
+		else {BSLbRbL3R3=0x00;}
+		html+="<br/>"+"<br/>"+"to send:  ABXYUDLR " + ABXYUDLR +","+" BackStartLbRbL3R3 "+BSLbRbL3R3+"<br/>";
+		html+="send continued : LX " + LX + "," + " LY " + LY + "," + " LT " + LT + " RX " + RX + "," + " RY " + RY + "," + " RT " + RT
+        $("#gamepadDisplay").html(html);
+    }
+ 
+    $(document).ready(function() {
+ 
+        if(canGame()) {
+ 
+            var prompt = "To begin using your gamepad, connect it and press any button!";
+            $("#gamepadPrompt").text(prompt);
+ 
+            $(window).on("gamepadconnected", function() {
+                hasGP = true;
+                $("#gamepadPrompt").html("Gamepad connected!");
+                console.log("connection event");
+                repGP = window.setInterval(reportOnGamepad,100);
+            });
+ 
+            $(window).on("gamepaddisconnected", function() {
+                console.log("disconnection event");
+                $("#gamepadPrompt").text(prompt);
+                window.clearInterval(repGP);
+            });
+ 
+            //setup an interval for Chrome
+            var checkGP = window.setInterval(function() {
+                console.log('checkGP');
+                if(navigator.getGamepads()[0]) {
+                    if(!hasGP) $(window).trigger("gamepadconnected");
+                    window.clearInterval(checkGP);
+                }
+            }, 500);
+        }
+ 
+    });
+    </script>
+    </body>
+</html>
