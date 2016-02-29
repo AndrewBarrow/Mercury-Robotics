@@ -41,8 +41,8 @@ var X = gp.buttons[2].pressed;
 var Y = gp.buttons[3].pressed;
 var LB = gp.buttons[4].pressed;
 var RB = gp.buttons[5].pressed;
-var LT = Math.round(gp.buttons[6].value*1000)/1000;
-var RT = Math.round(gp.buttons[7].value*1000)/1000;
+var LT = Math.round(gp.buttons[6].value*10000)/10000;
+var RT = Math.round(gp.buttons[7].value*10000)/10000;
 var BACK = gp.buttons[8].pressed;
 var START = gp.buttons[9].pressed;
 var L3 = gp.buttons[10].pressed;
@@ -52,10 +52,10 @@ var DOWN = gp.buttons[13].pressed;
 var LEFT = gp.buttons[14].pressed;
 var RIGHT = gp.buttons[15].pressed;
 //button[16];  //i think this is the xbox button, which is basically unussable because it switches the context
-var LX = Math.round(gp.axes[0]*1000)/1000; //Left max =-1 Right max = 1 
-var LY = Math.round(gp.axes[1]*1000)/1000; //Up max = -1  Down max = 1
-var RX = Math.round(gp.axes[2]*1000)/1000; //Left max =-1 Right max = 1
-var RY = Math.round(gp.axes[3]*1000)/1000; //Up max = -1  Down max = 1
+var LX = Math.round(gp.axes[0]*10000)/10000; //Left max =-1 Right max = 1 
+var LY = Math.round(gp.axes[1]*10000)/10000; //Up max = -1  Down max = 1
+var RX = Math.round(gp.axes[2]*10000)/10000; //Left max =-1 Right max = 1
+var RY = Math.round(gp.axes[3]*10000)/10000; //Up max = -1  Down max = 1
         var html = "";
             html += "id: "+gp.id+"<br/>";
  
