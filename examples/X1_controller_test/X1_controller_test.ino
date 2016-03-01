@@ -47,25 +47,29 @@ void loop() {
       }
       if ((xbox.getAnalogHat(LeftHatX) < dz_min) && (xbox.getAnalogHat(LeftHatX) > analog_min)) {
         // left
-        l.drive(DC::normalize<int16_t, uint8_t>(
-          xbox.getAnalogHat(LeftHatX), 
-          (analog_min + 1), 
-          dz_min, 
-          trig_min, 
-          DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(R2), trig_min, trig_max, 0, 255)), 
-          DC::Forward);
+        l.drive(
+          DC::normalize<int16_t, uint8_t>(
+            xbox.getAnalogHat(LeftHatX), 
+            (analog_min + 1), 
+            dz_min, 
+            trig_min, 
+            DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(R2), trig_min, trig_max, 0, 255)), 
+          DC::Forward
+        );
         r.drive(DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(R2), trig_min, trig_max, 0, 255), DC::Forward);
       }
       if ((xbox.getAnalogHat(LeftHatX) > dz_max) && (xbox.getAnalogHat(LeftHatX) < analog_max)) {
         // right
         l.drive(DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(R2), trig_min, trig_max, 0, 255), DC::Forward);
-        r.drive(DC::normalize<int16_t, uint8_t>(
-          (analog_max - xbox.getAnalogHat(LeftHatX)), 
-          dz_max, 
-          (analog_max - 1), 
-          trig_min, 
-          DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(R2), trig_min, trig_max, 0, 255)), 
-          DC::Forward);
+        r.drive(
+          DC::normalize<int16_t, uint8_t>(
+            (analog_max - xbox.getAnalogHat(LeftHatX)), 
+            dz_max, 
+            (analog_max - 1), 
+            trig_min, 
+            DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(R2), trig_min, trig_max, 0, 255)), 
+          DC::Forward
+        );
       }
       if (xbox.getAnalogHat(LeftHatX) == analog_min) {
         // skid left
@@ -94,23 +98,27 @@ void loop() {
       if ((xbox.getAnalogHat(LeftHatX) < dz_min) && (xbox.getAnalogHat(LeftHatX) > analog_min)) {
         // left
         l.drive(DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(L2), trig_min, trig_max, 0, 255), DC::Reverse);
-        r.drive(DC::normalize<int16_t, uint8_t>(
-          (analog_max - xbox.getAnalogHat(LeftHatX)), 
-          dz_max, 
-          (analog_max - 1), 
-          trig_min, 
-          DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(L2), trig_min, trig_max, 0, 255)), 
-          DC::Reverse);
+        r.drive(
+          DC::normalize<int16_t, uint8_t>(
+            (analog_max - xbox.getAnalogHat(LeftHatX)), 
+            dz_max, 
+            (analog_max - 1), 
+            trig_min, 
+            DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(L2), trig_min, trig_max, 0, 255)), 
+          DC::Reverse
+        );
       }
       if ((xbox.getAnalogHat(LeftHatX) > dz_max) && (xbox.getAnalogHat(LeftHatX) < analog_max)) {
         // right
-        l.drive(DC::normalize<int16_t, uint8_t>(
-          xbox.getAnalogHat(LeftHatX), 
-          (analog_min + 1), 
-          dz_min, 
-          trig_min, 
-          DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(L2), trig_min, trig_max, 0, 255)), 
-          DC::Reverse);
+        l.drive(
+          DC::normalize<int16_t, uint8_t>(
+            xbox.getAnalogHat(LeftHatX), 
+            (analog_min + 1), 
+            dz_min, 
+            trig_min, 
+            DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(L2), trig_min, trig_max, 0, 255)), 
+          DC::Reverse
+        );
         r.drive(DC::normalize<uint16_t, uint8_t>(xbox.getButtonPress(L2), trig_min, trig_max, 0, 255), DC::Reverse);
       }
       if (xbox.getAnalogHat(LeftHatX) == analog_min) {
