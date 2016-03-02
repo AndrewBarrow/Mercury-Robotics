@@ -1,4 +1,9 @@
 motor.h
+	3/1/2016 (Barrow)
+		DC class
+			- added bool prev_dir_ variable to hold the last direction used
+			- added prev_dir() function to return prev_dir_
+			- prev_dir_ is set in drive()
 	2/15/2016 (Barrow)
 		DC class
 			- added enum Direction for forwards and reverse
