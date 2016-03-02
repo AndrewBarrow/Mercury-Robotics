@@ -25,6 +25,13 @@ motor.h
 		- initial check-in
 	
 sensor.h
+	3/1/2016 (Barrow)
+		Sonar class
+			- Renamed mid_threshold() to at_mid_threshold()
+			- Renamed query_mid_threshold() to mid_threshold()
+			- Renamed mid_threshold() to at_mid_threshold()
+			- Renamed query_threshold() to threshold()
+			- Renamed threshold() to at_threshold()
 	2/22/2016 (Barrow)
 		Sonar class
 			- added mid_threshold_ variable for side sensors
