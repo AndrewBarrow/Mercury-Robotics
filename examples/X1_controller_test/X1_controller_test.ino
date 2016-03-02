@@ -181,7 +181,7 @@ void loop() {
   
   if (xbox.getButtonClick(Y)) {
     // toggle floodlight
-    if (flood.query_state()) {
+    if (flood.state()) {
       flood.toggle(LOW);
     } else {
       flood.toggle(HIGH);
