@@ -36,6 +36,7 @@ void setup() {
   servo::setup();
   claw.set_position(claw.query_max());
 }
+
 void loop() {
   Usb.Task();
   if (xbox.XboxOneConnected) {
