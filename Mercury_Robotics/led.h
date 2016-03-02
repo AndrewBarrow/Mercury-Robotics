@@ -29,7 +29,7 @@ public:
 		}
 	}
 	
-	bool query_state() const {
+	bool state() const {
 		return state_;
 	}
 } flood(9), los(1);
