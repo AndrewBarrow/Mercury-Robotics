@@ -62,11 +62,11 @@ public:
 		mid_threshold_ = middle_threshold;
 	}
 
-	uint16_t query_mid_threshold() const {
+	uint16_t mid_threshold() const {
 		return mid_threshold_;
 	}
 
-	bool mid_threshold() const {
+	bool at_mid_threshold() const {
 		return (query_distance() >= mid_threshold_);
 	}
 
@@ -74,11 +74,11 @@ public:
 		threshold_ = threshold;
 	}
 	
-	uint16_t query_threshold() const {
+	uint16_t threshold() const {
 		return threshold_;
 	}
 	
-	bool threshold() const {
+	bool at_threshold() const {
 		return (query_distance() >= threshold_);
 	}
 
