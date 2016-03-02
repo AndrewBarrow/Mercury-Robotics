@@ -84,8 +84,8 @@ void loop() {
       
       motor_zero = true;
     } else if (motor_zero == true) {
-      l.drive(0, DC::Forward);
-      r.drive(0, DC::Forward);
+      l.drive(0, l.prev_dir());
+      r.drive(0, r.prev_dir());
       motor_zero = false;
     }
     
@@ -134,8 +134,8 @@ void loop() {
       
       motor_zero = true;
     } else if (motor_zero == true) {
-      l.drive(0, DC::Reverse);
-      r.drive(0, DC::Reverse);
+      l.drive(0, l.prev_dir());
+      r.drive(0, r.prev_dir());
       motor_zero = false;
     }
     
