@@ -194,12 +194,12 @@ public:
 	enum Direction : bool { Forward = 1, Reverse = 0 };
 
 	DC(uint8_t motor_pin, uint8_t direction_pin) :
-	MOTOR(motor_pin),
-        DIRECTION(direction_pin)
-    {
-        pinMode(MOTOR, OUTPUT);
-        pinMode(DIRECTION, OUTPUT);
-    }
+		MOTOR(motor_pin),
+        	DIRECTION(direction_pin)
+    	{
+        	pinMode(MOTOR, OUTPUT);
+        	pinMode(DIRECTION, OUTPUT);
+    	}
     
 	// pwm value is from 0 - 255
 	void drive(uint8_t pwm, bool direction = 1) {
