@@ -204,7 +204,7 @@ public:
 	// pwm value is from 0 - 255
 	void drive(uint8_t pwm, bool direction = 1) {
 		/*
-		// Over my dead body! >=(
+		// Over my dead body Larry! >=(
 		if ((direction && !prev_dir) || (!direction && prev_dir)) {
 			delay(750);
 		}
