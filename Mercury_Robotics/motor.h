@@ -188,13 +188,13 @@ class DC {
 private:
     const uint8_t MOTOR;
     const uint8_t DIRECTION;
-	bool prev_dir;
+    bool prev_dir_;
     
 public:
 	enum Direction : bool { Forward = 1, Reverse = 0 };
 
 	DC(uint8_t motor_pin, uint8_t direction_pin) :
-		MOTOR(motor_pin),
+	MOTOR(motor_pin),
         DIRECTION(direction_pin)
     {
         pinMode(MOTOR, OUTPUT);
@@ -203,14 +203,21 @@ public:
     
 	// pwm value is from 0 - 255
 	void drive(uint8_t pwm, bool direction = 1) {
-      //  if ((direction && !prev_dir) || (!direction && prev_dir)) {
-	//		delay(750);
-		//}
-		//prev_dir = direction;
+		/*
+		// Over my dead body! >=(
+		if ((direction && !prev_dir) || (!direction && prev_dir)) {
+			delay(750);
+		}
+		*/
 		
+		prev_dir_ = direction;
 		digitalWrite(DIRECTION, direction);
-        analogWrite(MOTOR, pwm);
-    }
+        	analogWrite(MOTOR, pwm);
+    	}
+    	
+    	bool prev_dir() const {
+    		return prev_dir_;
+    	}
 	
 	template <typename T, typename N>
 	inline static N normalize(T value, T min, T max, N norm_min = 0, N norm_max = 255) {
