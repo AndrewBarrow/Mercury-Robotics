@@ -1,5 +1,5 @@
-#ifndef SONAR_H
-#define SONAR_H
+#ifndef SENSOR_H
+#define SENSOR_H
 
 /*
     Note to self for later:
