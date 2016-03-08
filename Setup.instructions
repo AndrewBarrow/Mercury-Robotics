@@ -70,6 +70,21 @@ and you have chromium, its faster more stable and has a better history (that thi
 oh and chromium has the gamepad.api so it can actually run the page we are trying to make.
 so its probably about time to actually start installing some stuff we will actually use....
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+having some trouble with uv4l so using other methods for now
  curl http://www.linux-projects.org/listing/uv4l_repo/lrkey.asc | sudo apt-key add -
 
  sudo nano /etc/apt/sources.list
