@@ -1,0 +1,96 @@
+Setup for lil deucie, raspberry pi tank and claw rover
+
+download latest raspbian jessie for your pi2
+then run
+
+sudo raspi-config
+
+you can also go to the menu and find raspberry pi configuration under preferences, but I'm old school and its actually supper easy so...
+
+
+expand file system (cause jessie will default to a 4gb partition and take up 3.8 Gb of that....)
+enable camera
+set overclock to pi2 (and then NEVER EVER EVER USE THIS CODE IN A PI1)
+you can also change the password default is raspberry so i like to change it to pi, when you get to the final stages you will probably disable boot to desktop and its easier to type pi
+and let it reboot
+
+connect to wifi by clicing on the concentric arcs in a cone shape in the upper right of the screen
+if this doesnt work look up wpa_supplicant for more detailed instructions.
+
+now before we do an update we can save some time by removing programs we wont need, addmitadly if you did this first you might save enough room you woulding need to expand the file system,
+well i like large file structures and you don't read ahead when you follow one of these guides do you so whos fault is it that its going to take an extra 10 minutes everytime you make a 
+backup image.
+use
+
+ dpkg --get-selections
+
+to view the complete list of installed programs
+then use
+
+sudo apt-get purge ProgramNameHere
+
+to remove them, make sure they arent actually inportant, a lot of importent files have dumb sounding names, cause linux files were made by regular people
+i used
+
+ sudo apt-get purge python-minecraftpi
+ sudo apt-get purge sonic-pi wolfram-engine bluej scratch greenfoot	
+ sudo apt-get purge nodejs
+
+you must run the last one, the others are optional but the second one will remove the java taint from your device, the first one just proves to yourself you got this pi for serious buisness. 
+Like robots... that can hold a knife.
+if you have to have minecraft on your pi you can try something with cuberite (at cuberite.org) which is a free c++ minecraft server. thats right C++ not piece of .... java. that means twice as fast, 1/3 the ram, better in literally every way.
+next run
+
+ sudo apt-get update
+ sudo apt-get upgrade -y
+
+which takes way less time than it would because you removed some extra packages
+next
+
+   wget https://node-arm.herokuapp.com/node_archive_armhf.deb
+   sudo dpkg -i node_archive_armhf.deb
+
+which will reinstall node, but this time its the correct version for serialport.js... which we will get to later
+
+ sudo rpi-upgrade
+
+time to reboot.
+its under menu by the way, though if you want in command line its sudo shutdown or sudo reboot  used to be way worse, had to use the halt command and a flag to say i mean it and one to say right now and so on
+
+now
+
+ wget http://ftp.us.debian.org/debian/pool/main/libg/libgcrypt11/libgcrypt11_1.5.0-5+deb7u3_armhf.deb
+ wget http://launchpadlibrarian.net/218525709/chromium-browser_45.0.2454.85-0ubuntu0.14.04.1.1097_armhf.deb
+ wget http://launchpadlibrarian.net/218525711/chromium-codecs-ffmpeg-extra_45.0.2454.85-0ubuntu0.14.04.1.1097_armhf.deb
+ sudo dpkg -i libgcrypt11_1.5.0-5+deb7u3_armhf.deb
+ sudo dpkg -i chromium-codecs-ffmpeg-extra_45.0.2454.85-0ubuntu0.14.04.1.1097_armhf.deb
+ sudo dpkg -i chromium-browser_45.0.2454.85-0ubuntu0.14.04.1.1097_armhf.deb
+
+and you have chromium, its faster more stable and has a better history (that thing you delete from your browser after staying up too late)
+oh and chromium has the gamepad.api so it can actually run the page we are trying to make.
+so its probably about time to actually start installing some stuff we will actually use....
+
+ curl http://www.linux-projects.org/listing/uv4l_repo/lrkey.asc | sudo apt-key add -
+
+ sudo nano /etc/apt/sources.list
+so you can add the following line (thanks to teycode for this, somehow uv4l is not in the base directory anymore) eventually there should be a jessie main so maybe try that but this works
+ deb http://www.linux-projects.org/listing/uv4l_repo/raspbian/ wheezy main
+
+
+ sudo apt-get update
+ sudo apt-get install uv4l uv4l-raspicam
+ sudo apt-get install uv4l-server
+ sudo apt-get install uv4l-uvc
+ sudo apt-get install uv4l-xscreen
+ sudo apt-get install uv4l-mjpegstream
+ sudo apt-get install uv4l-dummy
+ sudo apt-get install uv4l-webrtc
+
+uv4l is fast, and potentially opencv c++ compatible, which is important because the people who do pi stuff think python is a legitimate language. it is... but not with a microprocessor.
+also dont do image processing in a scripted language.
+
+
+
+ 
+
+
