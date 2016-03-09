@@ -53,8 +53,8 @@ public:
 		duration_ = pulseIn(ECHO, HIGH);
 	}
 	
+	// returns result in cm
 	uint16_t query_distance() const {
-		// in cm
 		return ((duration_ / 2) / 29.1);
 	}
 	
@@ -67,7 +67,7 @@ public:
 	}
 
 	bool at_mid_threshold() const {
-		return (query_distance() >= mid_threshold_);
+		return (query_distance() <= mid_threshold_);
 	}
 
 	void set_threshold(uint16_t threshold) {
@@ -79,7 +79,7 @@ public:
 	}
 	
 	bool at_threshold() const {
-		return (query_distance() >= threshold_);
+		return (query_distance() <= threshold_);
 	}
 
 	void set_override(bool state) {

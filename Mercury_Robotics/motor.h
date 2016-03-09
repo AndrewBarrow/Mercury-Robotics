@@ -36,6 +36,11 @@ private:
 		Wire.write(off >> 8);
 		Wire.endTransmission();
 	}
+	
+	template <typename T, typename N>
+	inline static N normalize(T value, T min, T max, N norm_min = 0, N norm_max = 255) {
+		return (((norm_max - norm_min) * ((float)(value - min) / (float)(max - min))) + norm_min);
+	}
 
 public:
 	Servo(uint8_t servo_pin_number, uint16_t servo_min, uint16_t servo_max, uint8_t addr = 0x40) : 
@@ -44,17 +49,7 @@ public:
 		MAX(servo_max), 
 		i2c_addr_(addr) 
 	{ }
-/*	
-	Servo(uint8_t servo_pin_number, uint16_t servo_min, uint16_t servo_max, uint8_t addr = 0x40) : 
-		PIN(servo_pin_number), 
-		MIN(servo_min), 
-		MAX(servo_max), 
-		i2c_addr_(addr) 
-	{ 
-		self->begin();
-		self->set_freq();
-	}	
-*/	
+
 	void begin() {
 		Wire.begin();
 		reset();
@@ -83,14 +78,19 @@ public:
 		write8(0x0, oldmode | 0xa1);
 	}
 	
-	void set_position(uint16_t position) {
-		if (position > MAX) {
-			position = MAX;
-		} else if (position < MIN) {
-			position = MIN;
+	void set_pos(uint16_t position, uint16_t range_min = 0, uint16_t range_max = 100) {
+		if (position > range_max) {
+			position = range_max;
+		} else if (position < range_min) {
+			position = range_min;
+		}
+		
+		if ((range_min == MIN) && (range_max == MAX)) {
+			set_pwm(PIN, 0, position);
+		} else {
+			set_pwm(PIN, 0, normalize<uint16_t, uint16_t>(position, range_min, range_max, MIN, MAX));
 		}
 	
-		set_pwm(PIN, 0, position);
 	}
 	
 	void drive_servo(uint16_t speed) {
@@ -160,26 +160,28 @@ void setup() {
 }
 
 void tall() {
-	theta.set_position(480);
-	elbow.set_position(340);
-	wrist.set_position(420);
+	theta.set_pos(480, theta.query_min(), theta.query_max());
+	elbow.set_pos(340, elbow.query_min(), elbow.query_max());
+	wrist.set_pos(420, wrist.query_min(), wrist.query_max());
 }
 	
 void pickup() {
-	theta.set_position(480);
-	elbow.set_position(160);
-	wrist.set_position(225);		
+	theta.set_pos(480, theta.query_min(), theta.query_max());
+	elbow.set_pos(160, elbow.query_min(), elbow.query_max());
+	wrist.set_pos(225, wrist.query_min(), wrist.query_max());		
 }
 	
 void look() {
-
+	theta.set_pos(480, theta.query_min(), theta.query_max());
+	elbow.set_pos(160, elbow.query_min(), elbow.query_max());
+	wrist.set_pos(420, wrist.query_min(), wrist.query_max());
 }
 	
 void load() {
-	theta.set_position(235);
-	elbow.set_position(350);
+	theta.set_pos(235, theta.query_min(), theta.query_max());
+	elbow.set_pos(350, elbow.query_min(), elbow.query_max());
 	delay(1000);
-	wrist.set_position(140);	
+	wrist.set_pos(140, wrist.query_min(), wrist.query_max());	
 }
 
 } // namespace servo
@@ -191,7 +193,7 @@ private:
     bool prev_dir_;
     
 public:
-	enum Direction : bool { Forward = 1, Reverse = 0 };
+	enum Direction : bool { For = 1, Rev = 0 };
 
 	DC(uint8_t motor_pin, uint8_t direction_pin) :
 		MOTOR(motor_pin),
@@ -203,13 +205,6 @@ public:
     
 	// pwm value is from 0 - 255
 	void drive(uint8_t pwm, bool direction = 1) {
-		/*
-		// Over my dead body Larry! >=(
-		if ((direction && !prev_dir) || (!direction && prev_dir)) {
-			delay(750);
-		}
-		*/
-		
 		prev_dir_ = direction;
 		digitalWrite(DIRECTION, direction);
         	analogWrite(MOTOR, pwm);

@@ -17,18 +17,6 @@ public:
 		digitalWrite(PIN, state_);
 	}
 	
-	// does not work!!!
-	void blink(uint32_t interval = 1000) {
-		uint32_t prev = 0;
-		uint32_t curr = millis();
-		
-		if (curr - prev >= interval) {
-			prev = curr;
-			state_ = state_ ^ 1;
-			digitalWrite(PIN, state_);
-		}
-	}
-	
 	bool state() const {
 		return state_;
 	}
