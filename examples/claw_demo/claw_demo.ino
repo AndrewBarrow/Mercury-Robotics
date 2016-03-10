@@ -4,9 +4,10 @@
     Left Analog Stick x-axis - theta
     Left Analog Stick y-axis - elbow
     Right Analog Stick y-axis - wrist
-    hold L2/RB - open claw
-    hold L1/LB - catapult safety
-    Circle/B - catapult 
+    
+    L2/RB - open claw
+    L1/LB - catapult safety
+    CIRCLE/B - launch catapult 
 */
 
 #include <PS3USB.h>
