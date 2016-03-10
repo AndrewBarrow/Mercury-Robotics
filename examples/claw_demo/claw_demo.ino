@@ -1,9 +1,9 @@
 /*
   This is a demo of manual claw controls.
   Controls:
-    Left Analog Stick x-axis - theta
-    Left Analog Stick y-axis - elbow
-    Right Analog Stick y-axis - wrist
+    Left Analog Stick x-axis - manual theta control
+    Left Analog Stick y-axis - manual elbow control
+    Right Analog Stick y-axis - manual wrist control
     
     R1/RB - open claw
     L1/LB - catapult safety
