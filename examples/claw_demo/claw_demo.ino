@@ -1,3 +1,14 @@
+/*
+  This is a demo of manual claw controls.
+  Controls:
+    Left Analog Stick x-axis - theta
+    Left Analog Stick y-axis - elbow
+    Right Analog Stick y-axis - wrist
+    hold L2/RB - open claw
+    hold L1/LB - catapult safety
+    Circle/B - catapult 
+*/
+
 #include <PS3USB.h>
 //#include <PS3BT.h>
 #include <usbhub.h>
