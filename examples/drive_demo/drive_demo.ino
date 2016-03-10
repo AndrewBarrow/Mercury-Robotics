@@ -1,3 +1,20 @@
+/*
+  This is a demo of driving.
+  Controls:
+    R2/RT - drive forward
+    L2/LT - drive reverse
+    Left Analog Stick x-axis - steering
+    
+    UP - auto claw tall
+    DOWN - auto claw pickup
+    LEFT - auto claw look
+    RIGHT - auto claw load
+    
+    R1/RB - open claw
+    L1/LB - catapult safety
+    CIRCLE/B - launch catapult
+*/
+
 #include <PS3USB.h>
 //#include <PS3BT.h>
 #include <usbhub.h>
