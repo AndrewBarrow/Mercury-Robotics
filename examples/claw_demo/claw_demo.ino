@@ -5,7 +5,7 @@
     Left Analog Stick y-axis - elbow
     Right Analog Stick y-axis - wrist
     
-    L2/RB - open claw
+    R1/RB - open claw
     L1/LB - catapult safety
     CIRCLE/B - launch catapult 
 */
