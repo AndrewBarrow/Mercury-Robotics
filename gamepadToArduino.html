@@ -27,6 +27,14 @@ LX,LY,LT,RX,RY,RT are all the analog values rouned off to 3 digits (the library 
 // */
     var hasGP = false;
     var repGP;
+	var ABXYUDLR= 0x00; 
+	var BSLbRbL3R3= 0x00;
+	var LT;
+	var RT;
+    var LX;
+    var LY;
+    var RX;
+    var RY;
  
     function canGame() {
         return "getGamepads" in navigator;
@@ -35,16 +43,14 @@ LX,LY,LT,RX,RY,RT are all the analog values rouned off to 3 digits (the library 
     function reportOnGamepad() 
 {
 var gp = navigator.getGamepads()[0];
-var ABXYUDLR = 0x00;
-var BSLbRbL3R3 = 0x00;
 var A = gp.buttons[0].pressed;
 var B = gp.buttons[1].pressed;
 var X = gp.buttons[2].pressed;
 var Y = gp.buttons[3].pressed;
 var LB = gp.buttons[4].pressed;
 var RB = gp.buttons[5].pressed;
-var LT = Math.round(gp.buttons[6].value*255);
-var RT = Math.round(gp.buttons[7].value*255);
+LT = Math.round(gp.buttons[6].value*255);
+RT = Math.round(gp.buttons[7].value*255);
 var BACK = gp.buttons[8].pressed;
 var START = gp.buttons[9].pressed;
 var L3 = gp.buttons[10].pressed;
@@ -54,25 +60,14 @@ var DOWN = gp.buttons[13].pressed;
 var LEFT = gp.buttons[14].pressed;
 var RIGHT = gp.buttons[15].pressed;
 //button[16];  //i think this is the xbox button, which is basically unussable because it switches the context
-var LX = Math.round(((gp.axes[0]*255)+255)/2); //Left max =-1 Right max = 1 
-var LY = Math.round(((-gp.axes[1]*255)+255)/2); //Up max = -1  Down max = 1
-var RX = Math.round(((gp.axes[2]*255)+255)/2); //Left max =-1 Right max = 1
-var RY = Math.round(((-gp.axes[3]*255)+255)/2); //Up max = -1  Down max = 1
+LX = Math.round(((gp.axes[0]*255)+255)/2); //Left max =-1 Right max = 1 
+LY = Math.round(((-gp.axes[1]*255)+255)/2); //Up max = -1  Down max = 1
+RX = Math.round(((gp.axes[2]*255)+255)/2); //Left max =-1 Right max = 1
+RY = Math.round(((-gp.axes[3]*255)+255)/2); //Up max = -1  Down max = 1
 //to normalize (((normMax-normMin)*((float)(valueIN-oldMin)/(float)(oldMax-oldMin)))+normMin
         var html = "";
             html += "id: "+gp.id+"<br/>";
  
-        for(var i=0;i<gp.buttons.length;i++) 
-	{
-            html+= "Button "+(i)+": ";
-            html+= gp.buttons[i].value;
-            html+= "<br/>";
-        }
- 
-        for(var i=0;i<gp.axes.length; i+=2) 
-	{
-            html+= "Stick "+(Math.ceil(i/2)+1)+": "+gp.axes[i]+","+gp.axes[i+1]+"<br/>";
-        }
 		if(A||B||X||Y||UP||DOWN||LEFT||RIGHT)
 		{
 			if(A){ABXYUDLR |=     0b10000000;}
