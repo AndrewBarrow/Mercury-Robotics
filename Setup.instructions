@@ -69,43 +69,28 @@ now
 and you have chromium, its faster more stable and has a better history (that thing you delete from your browser after staying up too late)
 oh and chromium has the gamepad.api so it can actually run the page we are trying to make.
 so its probably about time to actually start installing some stuff we will actually use....
+go to
+http://teycode.me/raspbian-jessie-opencv3/
+and follow the instructions except don't do step 7, its optional keep it in mind though, the webrtc could be really usefull though it would have to be done as a seperate page
+do steps 4 and 6, they are not optionall, but 6 may not be nesissary the change made seems to be the default at the time this was made
+once you get to step 8 reboot first or use command line
+ uv4l --driver raspicam --auto-video_nr --width 640 --height 480 --encoding jpeg
+other wise the pi camera wont actually get assigned to dev/video0
+you can check if its there by using 
+ls dev/video0
+or just go straight to 
+dd if=/dev/video0 of=snapshot.jpeg bs=11M count=1
+one more change to teycode is that for opencv step 4 instead use
+unzip opencv-3.1.0.zip
+cd opencv-3.1.0
+mkdir release
+cd release
+cmake ../
+ccmake ../
 
+for some reason i couldnt get it to work without running a default cmake. as for the configuration settings if teycode leaves it off
+then turn it off. but only add things that he shows are safe to add and you will probably need. it takes a long time to compile this
+and you dont want to get to 98% and hit an error. even using -j4 its a 2-3 hour install.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-having some trouble with uv4l so using other methods for now
- curl http://www.linux-projects.org/listing/uv4l_repo/lrkey.asc | sudo apt-key add -
-
- sudo nano /etc/apt/sources.list
-so you can add the following line (thanks to teycode for this, somehow uv4l is not in the base directory anymore) eventually there should be a jessie main so maybe try that but this works
- deb http://www.linux-projects.org/listing/uv4l_repo/raspbian/ wheezy main
-
-
- sudo apt-get update
- sudo apt-get install uv4l uv4l-raspicam
- sudo apt-get install uv4l-server
- sudo apt-get install uv4l-uvc
- sudo apt-get install uv4l-xscreen
- sudo apt-get install uv4l-mjpegstream
- sudo apt-get install uv4l-dummy
- sudo apt-get install uv4l-webrtc
-
-uv4l is fast, and potentially opencv c++ compatible, which is important because the people who do pi stuff think python is a legitimate language. it is... but not with a microprocessor.
-also dont do image processing in a scripted language.
-
-
-
- 
-
-
+next we are going to try making a webpage entirely in node. we are doing this because a normall html file seems to have some permission
+issues with serialport. basically this means instead of installing appache we will have a server file that we will launch on boot.
