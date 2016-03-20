@@ -70,18 +70,22 @@ and you have chromium, its faster more stable and has a better history (that thi
 oh and chromium has the gamepad.api so it can actually run the page we are trying to make.
 so its probably about time to actually start installing some stuff we will actually use....
 go to
-http://teycode.me/raspbian-jessie-opencv3/
+http://teycode.me/raspberry-uv4l-opencv/
+which gives an outdated opencv 2.4.11 which is required for node-opencv http://peterbraden.github.io/node-opencv/ if its updated to allow 3.1 then use http://teycode.me/raspbian-jessie-opencv3/
+
 and follow the instructions except don't do step 7, its optional keep it in mind though, the webrtc could be really usefull though it would have to be done as a seperate page
 do steps 4 and 6, they are not optionall, but 6 may not be nesissary the change made seems to be the default at the time this was made
 once you get to step 8 reboot first or use command line
  uv4l --driver raspicam --auto-video_nr --width 640 --height 480 --encoding jpeg
 other wise the pi camera wont actually get assigned to dev/video0
 you can check if its there by using 
-ls dev/video0
+ls /dev/video*
 or just go straight to 
 dd if=/dev/video0 of=snapshot.jpeg bs=11M count=1
-one more change to teycode is that for opencv step 4 instead use
-unzip opencv-3.1.0.zip
+one more change to teycode is that for opencv step 4 and 5 instead use
+
+wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.11/opencv-2.4.11.zip/download -O opencv-2.4.11.zip
+unzip opencv-2.4.11.zip
 cd opencv-3.1.0
 mkdir release
 cd release
@@ -94,3 +98,9 @@ and you dont want to get to 98% and hit an error. even using -j4 its a 2-3 hour 
 
 next we are going to try making a webpage entirely in node. we are doing this because a normall html file seems to have some permission
 issues with serialport. basically this means instead of installing appache we will have a server file that we will launch on boot.
+
+plug in the usb camera then
+ls /dev/video*
+there should be 2 video devices, if there is not... then we have risked all and lost...
+from here on we don't really care which video is which, we just know that both cameras will be 0 or 1 so we can just make a script to switch bettween them
+with some further research ive found i may have to revert to opencv-2.4 to use node-opencv
