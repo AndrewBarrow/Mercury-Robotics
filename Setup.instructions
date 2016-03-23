@@ -92,6 +92,15 @@ cd release
 cmake ../
 ccmake ../
 
+or use
+wget http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/3.1.0/opencv-3.1.0.zip/download -O opencv-3.1.0.zip
+unzip opencv-3.1.0.zip
+cd opencv-3.1.0
+mkdir release
+cd release
+cmake ../
+ccmake ../
+
 for some reason i couldnt get it to work without running a default cmake. as for the configuration settings if teycode leaves it off
 then turn it off. but only add things that he shows are safe to add and you will probably need. it takes a long time to compile this
 and you dont want to get to 98% and hit an error. even using -j4 its a 2-3 hour install.
@@ -103,4 +112,47 @@ plug in the usb camera then
 ls /dev/video*
 there should be 2 video devices, if there is not... then we have risked all and lost...
 from here on we don't really care which video is which, we just know that both cameras will be 0 or 1 so we can just make a script to switch bettween them
-with some further research ive found i may have to revert to opencv-2.4 to use node-opencv
+with some further research ive found i may have to revert to opencv-2.4 to use node-opencv but it does install so it might work.
+
+first thing, we are doing a javascript package so we can make a package.json to hold some important app data.
+
+{
+  "name": "Pi-server",
+  "version": "0.0.1",
+  "description": "hosts html file, sends gamepad data to arduino, steams camera",
+  "dependencies": {}
+}
+
+ok so now on to how we host pages
+so basically we setup a server that will place data to the local address with a specified port number.
+we can do this with the default 'http' module or we can use 'express' to give us some nice handy features
+modules can be imported with the form
+
+var app=require('express'); 
+var http=require('http').Server(app); //specifies the server method to be used as express
+
+of course for that to work we need to install express so in the console run
+    npm install --save express@4.10.2
+which installs version 4.10.2 of express to the current working directory, normally we would just go for the latest but this is the package sugessted to go with some later ones
+
+then we need to open a port for listening
+
+http.listen(3000,function(){console.log('port :3000 now listening);});
+
+that lets us connect, but the bassis of internet is a request response system. the request is defined but we need to specifiy the response
+that could be a simple segment of html code or we can serve up a whole html file
+to do that we use the sendFile() function from express
+probably in the form of
+
+app.get('/', function(req,res){res.sendFile(_dirname + '/file.html');});
+
+so that puts an html file up, but there are many things we can't do with an html file, specifically we can't access the sever io ports
+of course we can write those things into the server code itself but what about user input into the html client.
+we can make some really complicated req res functions to get at those or we can create sockets
+so now we need socket io
+    npm install --save socket.io
+if you're wondering why we use the --save argument open up the package.json file you made earlier, it should now have all installed
+packages listed under dependencies. which means if we want to reinstall all this later all we have to do is run
+   npm install
+which will look for a file called package.json and look for the field variable dependenies and then install those. cool right
+now back to the work
