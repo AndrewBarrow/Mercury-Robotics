@@ -156,3 +156,47 @@ packages listed under dependencies. which means if we want to reinstall all this
    npm install
 which will look for a file called package.json and look for the field variable dependenies and then install those. cool right
 now back to the work
+
+the key to the socket.io is the event label
+so for instance on the server we have
+
+var io = require('socket.io)(http);
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    console.log('message: ' + msg);
+  });
+}); //note we have two identical event labels, but it still works, both labels are called on the event, which is cool.
+
+and on the client we have
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+ <script>
+  var socket = io();
+  $('form').submit(function(){
+    socket.emit('chat message', $('#m').val());
+    $('#m').val('');
+    return false;
+  });
+  socket.on('chat message', function(msg){
+    $('#messages').append($('<li>').text(msg));
+  });
+ </script>
+  
+  so obviously we have default events like connect and disconnect, which fire when a user closes or opens the window. it does not
+  unfortunately trigger when network is lost either server or client side so...
+  but obviously nobody programed in the concept of 'chat message'. what happens is the server and client monitor for state changes
+  when a state changes on one side it looks for the coresponding event handler on the other side
+  one fun feature of this is you can connect with the client, turn off the server, change the code, turn server back on
+  and the server and client will still be able to communicate with that socket. this is important because it means that connection
+  will resume after the loss of signal test, as if nothing had happened. so now just need a way to either detect loss of network
+  or a watchdog to check how long since a command has been sent.
+  under demos i have uploaded a chat room example of using socket.io bassed on the tutorial from the socket.io website.
+  
+
