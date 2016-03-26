@@ -51,6 +51,9 @@ next
    sudo dpkg -i node_archive_armhf.deb
 
 which will reinstall node, but this time its the correct version for serialport.js... which we will get to later
+for some reason rpi-update is not default installed... which is pretty freaking dumb
+
+sudo apt-get install rpi-update
 
  sudo rpi-upgrade
 
