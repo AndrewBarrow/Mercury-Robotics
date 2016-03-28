@@ -1,0 +1,6 @@
+?E: Package 'ffmpeg' has no installation candidate
+
+E: Unable to locate package libpython2.6
+E: Couldn't find any package by regex 'libpython2.6'
+E: Unable to locate package python2.6-dev
+E: Couldn't find any package by regex 'python2.6-dev'
