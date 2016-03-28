@@ -1,10 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var B=0;
-var L=0;
-var R=0;
-var T=0;
+
 
 app.get('/', function(req, res){
    res.sendFile(__dirname + '/gamepadToArduino.html'); //remember eventually this should be the index page again
@@ -41,6 +38,7 @@ io.on('connection', function(socket){
 		socket.on('message',  function(msg)
 	{
 	  console.log(msg);
+	  console.log("\r");
 	});
 
   });

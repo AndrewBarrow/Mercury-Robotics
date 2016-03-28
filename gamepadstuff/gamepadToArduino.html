@@ -18,6 +18,7 @@
     <script>
     var hasGP = false;
     var repGP;
+    var socket = io();
     function canGame() {
         return "getGamepads" in navigator;
     }
@@ -105,9 +106,9 @@ var RY = Math.round(((-gp.axes[3]*255)+255)/2); //Up max = -1  Down max = 1
 			T  = T.toString(16);
 		html+="<br/>"+"<br/>"+"to send:  Bu "+ Bu +" Bl " + Bl +" |"+" Ly " + Ly + " Lx " + Lx + " |" + " Ry " + Ry + " Rx " + Rx + " |" + " Lt " + Lt + " Rt " + Rt ;
 		html+="<br/>"+"<br/>"+"to send:  Buttons "+ B +" |"+" Left stick " + L +" |"+" Right stick " + R +" |"+" Triggers " + T +","+"<br/>";
-		socket.on('connect', function(){
-			socket.send("Buttons "+ B +" |"+" Left stick " + L +" |"+" Right stick " + R +" |"+" Triggers " + T);
-			});
+		
+		socket.emit('message',"Buttons "+ B +" |"+" Left stick " + L +" |"+" Right stick " + R +" |"+" Triggers " + T);
+			
 //		socket.emit('Buttons',B);
 //		socket.emit('Left'   ,L);
 //		socket.emit('Right'  ,R);
@@ -126,7 +127,7 @@ var RY = Math.round(((-gp.axes[3]*255)+255)/2); //Up max = -1  Down max = 1
                 hasGP = true;
                 $("#gamepadPrompt").html("Gamepad connected!");
                 console.log("connection event");
-                repGP = window.setInterval(reportOnGamepad,100);
+                repGP = window.setInterval(reportOnGamepad,10);
             });
  
             $(window).on("gamepaddisconnected", function() {
