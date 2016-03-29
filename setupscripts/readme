@@ -5,3 +5,7 @@ run first second and third
 paste in commands from opencv shells, ccmake reqires human input
 althernatively there is now an apt package for opencv 2.4.9
 sudo apt-get install libopencv-dev
+
+if cant get uv4l working
+ sudo apt-get remove uv4l uv4l-raspicam uv4l-raspicam-extras
+and try v4l2 drivers
