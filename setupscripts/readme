@@ -3,4 +3,5 @@ sudo nano /etc/apt/sources.list
                  deb http://www.linux-projects.org/listing/uv4l_repo/raspbian/ wheezy main
 run first second and third
 paste in commands from opencv shells, ccmake reqires human input
-
+althernatively there is now an apt package for opencv 2.4.9
+sudo apt-get install libopencv-dev
