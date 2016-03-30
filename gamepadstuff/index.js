@@ -1,6 +1,10 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var SerialPort = require("serialport").SerialPort
+var serialPort = new SerialPort("/dev/ttyACM0", {
+  baudrate: 9600
+});
 
 
 app.get('/', function(req, res){
@@ -30,18 +34,14 @@ io.on('connection', function(socket){
     console.log('index message: ' + msg);
 	});
   });
-  function input(label,msg)
-  {
-	  console.log(label+msg);
-  }
-io.on('connection', function(socket){
+io.on('connection', function(socket)
+{
 		socket.on('message',  function(msg)
 	{
 	  console.log(msg);
-	  console.log("\r");
+	  serialPort.write(msg);
 	});
-
-  });
+});
 
 
 
