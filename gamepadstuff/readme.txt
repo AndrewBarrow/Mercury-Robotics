@@ -4,7 +4,7 @@ in that directory type
 into the command line
 this will check the package.json object and install the required packages
 then in command line type
-      node chat.js
+      node comtest.js
 which will start the server, connect to the pi via its ip address and port 3000
 ie
 localhost:3000
