@@ -88,34 +88,35 @@ var RY = Math.round(((-gp.axes[3]*255)+255)/2); //Up max = -1  Down max = 1
 		}
 		else {BSLbRbL3R3=0x00;}
 		
-		var Bu = BSLbRbL3R3.toString(16);
-		var Bl = ABXYUDLR.toString(16);
-		var B  = Bu+Bl;
-			B  = B.toString(16); //prob not necissary but is a good guarantee
-		var Lx = LX.toString(16);
-		var Ly = LY.toString(16);
-		var L  = Ly+Lx;
-			L  = L.toString(16);
-		var Rx = RX.toString(16);
-		var Ry = RY.toString(16);
-		var R  = Ry+Rx;
-			R  = R.toString(16);
-		var Lt = LT.toString(16);
-		var Rt = RT.toString(16);
-		var T  = Lt+Rt;
-			T  = T.toString(16);
+		var Bu = BSLbRbL3R3;
+		var Bl = ABXYUDLR;
+		var B  = Bu<<8+Bl;
+		var Lx = LX;
+		var Ly = LY;
+		var L  = Ly<<8+Lx;
+		var Rx = RX;
+		var Ry = RY;
+		var R  = Ry<<8+Rx;
+		var Lt = LT;
+		var Rt = RT;
+		var T  = Lt<<8+Rt;
+			
 		html+="<br/>"+"<br/>"+"to send:  Bu "+ Bu +" Bl " + Bl +" |"+" Ly " + Ly + " Lx " + Lx + " |" + " Ry " + Ry + " Rx " + Rx + " |" + " Lt " + Lt + " Rt " + Rt ;
 		html+="<br/>"+"<br/>"+"to send:  Buttons "+ B +" |"+" Left stick " + L +" |"+" Right stick " + R +" |"+" Triggers " + T +","+"<br/>";
 		
-		socket.emit('message', B+" "+L+" "+R+" "+T);
+		//socket.emit('message',B +" |"+" Left stick " + L +" |"+" Right stick " + R +" |"+" Triggers " + T);
 			
-//		socket.emit('Buttons',B);
-//		socket.emit('Left'   ,L);
-//		socket.emit('Right'  ,R);
-//		socket.emit('Trigger',T);
+		socket.emit('ButtonsUpper',Bu);
+		socket.emit('LeftY'   ,Ly);
+		socket.emit('RightY'  ,Ry);
+		socket.emit('TriggerLeft',Lt);
+		socket.emit('ButtonsLower',Bl);
+		socket.emit('LeftX'   ,Lx);
+		socket.emit('RightX'  ,Rx);
+		socket.emit('TriggerRight',Rt);
+		
         $("#gamepadDisplay").html(html);
 }
-
     $(document).ready(function() {
  
         if(canGame()) {
