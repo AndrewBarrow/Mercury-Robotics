@@ -3,7 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
-var serialPort = new SerialPort("/dev/ttyUSB0", {
+var serialPort = new SerialPort("/dev/ttyACM0", {
   baudrate: 9600,
   parser: serialport.parsers.readline("\n")
 });
@@ -13,6 +13,7 @@ var Bu=0,Ly=0,Ry=0,Rt=0;
 var Bl=0,Lx=0,Rx=0,Lt=0;
 var count=0;
 var LOS=0;
+var buffer= new Buffer([2,Bu,Bl,Ly,Lx,Ry,Rx,Lt,Rt]);
 //var ary={0x11,0x22,0x33,0x44,0x55,0x66,0x77,0xFF};
 
 app.get('/', function(req, res){
@@ -23,8 +24,8 @@ http.listen(3000, function(){
 });
 io.on('connection', function(socket)
 {
-	console.log('a user connected to index');
-	socket.on('disconnect', function(){console.log('user left index');});
+	console.log('Signal detected');
+	socket.on('disconnect', function(){console.log('Signal Lost');});
 	socket.on('ButtonsUpper',function(msg){Bu=msg;});
 	socket.on('LeftY'   ,function(msg){Ly=msg;});
 	socket.on('RightY'  ,function(msg){Ry=msg;});
@@ -62,7 +63,7 @@ function onData(data)
 {
 	msg=data;
 	console.log("in "+msg);
-	console.log(data); 
+	//console.log(data);
 }
  
 function showPortClose() {
@@ -76,20 +77,27 @@ function showError(error) {
 function toSend()
 {
 	//console.log(Bu+" "+Bl+" "+Ly+" "+Lx+" "+Ry+" "+Rx+" "+Lt+" "+Rt);
-	var buffer= new Buffer([Bu,Bl,Ly,Lx,Ry,Rx,Lt,Rt]);
+	buffer= new Buffer([2,Bu,Bl,Ly,Lx,Ry,Rx,Lt,Rt]);
+	//var buffer= new Buffer([2,71,114,97,112,101,100,254,32]);
 	controller=Bu+Bl+Ly+Lx+Ry+Rx+Lt+Rt;
+	serialPort.write(buffer);
+	console.log("cksum= "+controller);
+	//serialPort.write("Grap" + 0x65);
 	if (controllerold==controller)
 	{count++;}
 	else
 	{count=0;}
 	controllerold=controller;
 	if(count<=25)
-	{serialPort.write(buffer);
-	console.log("cksum= "+controller);
+	{//serialPort.write("Grapist!\n");
+	//serialPort.write(buffer);
+	//console.log("cksum= "+controller);
 	//console.log(c));
 	LOS=0;}
 	else
-	{//serialPort.write(0x0000000000000000);
+	{
+	buffer=new Buffer([2,0,0,0,0,0,0,0,0]);
+	serialPort.write(buffer);
 	//console.log(0x0000000000000000);
 	LOS=1;}
 	
