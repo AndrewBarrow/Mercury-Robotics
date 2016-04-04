@@ -1,6 +1,13 @@
 CHANGELOG
 
+led.h
+	2/22/2016 (Barrow)
+		-inital check-in
+
 motor.h
+	4/4/2016 (Barrow)
+		Servo class
+			- removed methods drive_servo(), setServoPulse(), and set_pin()
 	3/1/2016 (Barrow)
 		DC class
 			- added bool prev_dir_ variable to hold the last direction used
@@ -62,15 +69,11 @@ sensor.h
 		- initial check-in
 		- based off the example provided by Nick
 		
-usb_communication.h
-	2/6/2016 (Barrow)
-		-initial check-in
-		
-led.h
-	2/22/2016 (Barrow)
-		-inital check-in
-		
-general.h
-	2/19/2016 (Barrow)
-		-inital check-in
-		-moved servo::setup() here.  (Remove the function from motor.h once I finish testing)
+usb_com.h
+	4/4/2016 (Barrow)
+		- initial check-in
+		USB_Input struct
+			- added variables to store digital and analog buttons
+			- added assign() to assign our buffer cells to the various button variables
+		Digital_Button_Mask struct
+			- created masks for the XboxOne buttons
