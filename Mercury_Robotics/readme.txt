@@ -1,3 +1,5 @@
+CHANGELOG
+
 motor.h
 	3/1/2016 (Barrow)
 		DC class
