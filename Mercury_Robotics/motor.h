@@ -92,49 +92,6 @@ public:
 		}
 	
 	}
-	
-	void drive_servo(uint16_t speed) {
-		uint16_t pulse = MAX - MIN;
-		
-		if (speed != 0) {
-			pulse = (speed * (MAX - (MAX - MIN))) + (MAX - MIN);
-		}
-		set_pwm(PIN, 0, pulse);
-	}
-	
-	// you can use this function if you'd like to set the pulse length in seconds
-	// e.g. setServoPulse(0, 0.001) is a ~1 millisecond pulse width. its not precise!
-	void setServoPulse(double pulse) {
-		double pulselength;
-  
-		pulselength = 1000000;   // 1,000,000 us per second
-		pulselength /= 60;   // 60 Hz
-		pulselength /= 4096;  // 12 bits of resolution
-		pulse *= 1000;
-		pulse /= pulselength;
-		set_pwm(PIN, 0, pulse);
-}
-	
-	void set_pin(uint8_t num, uint16_t val, bool invert = false) {
-		val = min(val, 4095);
-		if (invert) {
-			if (val == 0) {
-				set_pwm(num, 4096, 0);
-			} else if (val == 4095) {
-				set_pwm(num, 0, 4096);
-			} else {
-				set_pwm(num, 0, 4095 - val);
-			}
-		} else {
-			if (val == 4095) {
-				set_pwm(num, 4096, 0);
-			} else if (val == 0) {
-				set_pwm(num, 0, 4096);
-			} else {
-				set_pwm(num, 0, val);
-			}
-		}
-	}
 
 	uint16_t query_max() const { return MAX; }
 	
@@ -142,9 +99,6 @@ public:
 	
 } claw(10, 325, 500), elbow(12, 160, 500), theta(8, 115, 500), wrist(11, 130, 550), cata(9, 115, 300);
 
-/*
-	move this namespace to a new "general" header for these sorts of things.
-*/
 namespace servo {
 void setup() {
   claw.begin();
@@ -203,16 +157,22 @@ public:
         	pinMode(DIRECTION, OUTPUT);
     	}
     
-	// pwm value is from 0 - 255
+	// pwm value is from 0 - 254
 	void drive(uint8_t pwm, bool direction = 1) {
+		if (pwm > 254) {
+			pwm = 254;
+		} else if (pwm < 0) {
+			pwm = 0;
+		}
+		
 		prev_dir_ = direction;
 		digitalWrite(DIRECTION, direction);
-        	analogWrite(MOTOR, pwm);
-    	}
+        analogWrite(MOTOR, pwm);
+    }
     	
-    	bool prev_dir() const {
-    		return prev_dir_;
-    	}
+    bool prev_dir() const {
+    	return prev_dir_;
+    }
 	
 	template <typename T, typename N>
 	inline static N normalize(T value, T min, T max, N norm_min = 0, N norm_max = 255) {

@@ -1,10 +1,6 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-/*
-    Note to self for later:
-        make sure we can override the sonar either by a button or otherwise
-*/
 class Sonar {
 private:
 	const uint8_t ECHO;
@@ -36,7 +32,7 @@ public:
 	}
 
 	Sonar(uint8_t echo_pin, uint8_t trig_pin, uint16_t middle_threshold, uint16_t threshold) :
-		ECHO(echo_pin),
+		ECHO( echo_pin),
 		TRIG(trig_pin),
 		mid_threshold_(middle_threshold),
 		threshold_(threshold)
@@ -89,6 +85,13 @@ public:
 	bool override() const {
 		return override_;
 	}
+};
+
+class Encoder {
+private:
+
+public:
+	
 };
 
 #endif
