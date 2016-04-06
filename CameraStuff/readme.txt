@@ -10,3 +10,4 @@ and in windows command or mac terminal
  also can drop frame rate. will have to determine smallest resolution needed for claw cam.
  
  
+ http://wiki.oz9aec.net/index.php/Raspberry_Pi_Camera
