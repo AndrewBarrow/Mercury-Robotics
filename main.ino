@@ -196,6 +196,8 @@ void drive_mode() {
     }
   
 	if (usb.digital & button.START) {
+		l.drive(0, l.prev_dir());
+		r.drive(0, r.prev_dir());
 		mode = 2;
 	}
 }
