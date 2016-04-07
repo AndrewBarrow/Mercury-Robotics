@@ -195,7 +195,7 @@ void drive_mode() {
 		servo::look();
     }
   
-	if (usb.digital & button.BACK) {
+	if (usb.digital & button.START) {
 		mode = 2;
 	}
 }
@@ -229,7 +229,7 @@ void claw_mode() {
 		claw.set_pos(100);  
 	}
   
-	if (usb.digital & button.BACK) {
+	if (usb.digital & button.START) {
 		mode = 1;
 	}
 }
