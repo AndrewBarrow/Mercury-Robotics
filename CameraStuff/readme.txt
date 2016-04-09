@@ -15,3 +15,16 @@ also press ctrl-w to search in nano SUPPER USEFUL
 unfortunately motion seems very slow and laggy
  
  http://wiki.oz9aec.net/index.php/Raspberry_Pi_Camera
+ 
+ some important notes, have been doing gstreamer on the assumption that the camera is h.264 encoded, but using
+ v4l2-ctl --list-formats
+ shows its not
+ but... opencv complained about opengl not being availible so i ran
+ sudo apt-get install libgl1-mesa-dri
+ and after reboot there were three listed camera devices
+ v4l2-ctl --list-formats
+ shows that the usb cam is video0 and video1 and
+  v4l2-ctl --list-formats -d /dev/video1
+  shows that that is how you access the h.264 encoded camera
+  after this change the cvlc function is supper slow and opencv still has capture problems.
+  need to refind the gstreamer pipeline for sending 
