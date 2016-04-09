@@ -9,5 +9,9 @@ and in windows command or mac terminal
  trying to switch to udp
  also can drop frame rate. will have to determine smallest resolution needed for claw cam.
  
+ http://pimylifeup.com/raspberry-pi-webcam-server/
+works but webcam_localhost is now stream_localhost and webcam_maxrate is now stream_maxrate
+also press ctrl-w to search in nano SUPPER USEFUL
+unfortunately motion seems very slow and laggy
  
  http://wiki.oz9aec.net/index.php/Raspberry_Pi_Camera
