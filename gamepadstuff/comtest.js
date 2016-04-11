@@ -1,3 +1,6 @@
+var Gpio=require('onoff').Gpio;
+var led=new Gpio(4,'out');
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -80,25 +83,25 @@ function toSend()
 	buffer= new Buffer([2,Bu,Bl,Ly,Lx,Ry,Rx,Lt,Rt]);
 	//var buffer= new Buffer([2,71,114,97,112,101,100,254,32]);
 	controller=Bu+Bl+Ly+Lx+Ry+Rx+Lt+Rt;
-	serialPort.write(buffer);
-	console.log("cksum= "+controller);
+	//serialPort.write(buffer);
+	//console.log("cksum= "+controller);
 	//serialPort.write("Grap" + 0x65);
 	if (controllerold==controller)
 	{count++;}
 	else
 	{count=0;}
 	controllerold=controller;
-	if(count<=25)
+	if(count<=60)
 	{//serialPort.write("Grapist!\n");
-	//serialPort.write(buffer);
-	//console.log("cksum= "+controller);
+	serialPort.write(buffer);
+	console.log("cksum= "+controller);
 	//console.log(c));
-	LOS=0;}
+	led.writeSync(0);}
 	else
 	{
 	buffer=new Buffer([2,0,0,0,0,0,0,0,0]);
 	serialPort.write(buffer);
 	//console.log(0x0000000000000000);
-	LOS=1;}
+	led.writeSync(1);}
 	
 }

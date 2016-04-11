@@ -16,8 +16,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
+    "onoff": "^1.0.4",
     "opencv": "^5.0.0",
+    "rpi-gpio": "^0.7.0",
     "serialport": "^2.0.6",
+    "simple-peer": "^6.0.3",
     "socket.io": "^1.4.5"
   }
 }

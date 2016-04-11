@@ -1,7 +1,7 @@
 var cv = require('opencv');
 
 try {
-  var camera = new cv.VideoCapture(0);
+  var camera = new cv.VideoCapture(2);
   var window = new cv.NamedWindow('Video', 0)
   while(true)
   camera.read(err,im);

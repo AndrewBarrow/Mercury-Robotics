@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="keywords" content="JavaScript, WebRTC" />
+<meta name="description" content="WebRTC codelab" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+<title>client</title>
+
+<style>
+</style>
+
+</head>
+
+<body>
+<video id="remoteVideo" autoplay></video>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var localStream, localPeerConnection, remotePeerConnection;
+var remoteVideo = document.getElementById("remoteVideo");
+
+  var servers = null;
+
+  localPeerConnection = new webkitRTCPeerConnection(servers);
+  trace("Created local peer connection object localPeerConnection");
+  localPeerConnection.onicecandidate = gotLocalIceCandidate;
+
+  remotePeerConnection = new webkitRTCPeerConnection(servers);
+  trace("Created remote peer connection object remotePeerConnection");
+  remotePeerConnection.onicecandidate = gotRemoteIceCandidate;
+  remotePeerConnection.onaddstream = gotRemoteStream;
+
+  localPeerConnection.addStream(localStream);
+  trace("Added localStream to localPeerConnection");
+  localPeerConnection.createOffer(gotLocalDescription);
+
+</script>
+</body>
+
+</html>
