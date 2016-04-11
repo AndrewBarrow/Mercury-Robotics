@@ -88,10 +88,11 @@ public:
 };
 
 class Encoder {
-private:
-
-public:
-	
+	/*
+		here lies my hopes and dreams for an encoder.
+		
+		:'(
+	*/
 };
 
 #endif

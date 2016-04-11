@@ -97,7 +97,7 @@ public:
 	
 	uint16_t query_min() const { return MIN; }	
 	
-} claw(10, 325, 500), elbow(12, 160, 500), theta(8, 115, 500), wrist(11, 130, 550), cata(9, 115, 300);
+} claw(10, 325, 500), elbow(12, 160, 500), theta(8, 115, 500), wrist(11, 250, 550), cata(9, 115, 300);
 
 namespace servo {
 void setup() {
@@ -113,29 +113,36 @@ void setup() {
   cata.set_freq();
 }
 
+// quick selction positions
 void tall() {
 	theta.set_pos(480, theta.query_min(), theta.query_max());
 	elbow.set_pos(340, elbow.query_min(), elbow.query_max());
-	wrist.set_pos(420, wrist.query_min(), wrist.query_max());
+	wrist.set_pos(250, wrist.query_min(), wrist.query_max());
 }
 	
 void pickup() {
-	theta.set_pos(480, theta.query_min(), theta.query_max());
+	theta.set_pos(469, theta.query_min(), theta.query_max());
 	elbow.set_pos(160, elbow.query_min(), elbow.query_max());
-	wrist.set_pos(225, wrist.query_min(), wrist.query_max());		
+	wrist.set_pos(460, wrist.query_min(), wrist.query_max());		
 }
 	
 void look() {
-	theta.set_pos(480, theta.query_min(), theta.query_max());
+	theta.set_pos(469, theta.query_min(), theta.query_max());
 	elbow.set_pos(160, elbow.query_min(), elbow.query_max());
-	wrist.set_pos(420, wrist.query_min(), wrist.query_max());
+	wrist.set_pos(250, wrist.query_min(), wrist.query_max());	
 }
 	
 void load() {
 	theta.set_pos(235, theta.query_min(), theta.query_max());
 	elbow.set_pos(350, elbow.query_min(), elbow.query_max());
 	delay(1000);
-	wrist.set_pos(140, wrist.query_min(), wrist.query_max());	
+	wrist.set_pos(550, wrist.query_min(), wrist.query_max());	
+}
+
+void und_keine_eier() {
+	theta.set_pos(469, theta.query_min(), theta.query_max());
+	elbow.set_pos(230, elbow.query_min(), elbow.query_max());
+	wrist.set_pos(250, wrist.query_min(), wrist.query_max());		
 }
 
 } // namespace servo
@@ -144,14 +151,16 @@ class DC {
 private:
     const uint8_t MOTOR;
     const uint8_t DIRECTION;
+	float modifier_;
     bool prev_dir_;
     
 public:
 	enum Direction : bool { For = 1, Rev = 0 };
 
-	DC(uint8_t motor_pin, uint8_t direction_pin) :
+	DC(uint8_t motor_pin, uint8_t direction_pin, float modifier) :
 		MOTOR(motor_pin),
-        	DIRECTION(direction_pin)
+		DIRECTION(direction_pin),
+		modifier_(modifier)
     	{
         	pinMode(MOTOR, OUTPUT);
         	pinMode(DIRECTION, OUTPUT);
@@ -167,7 +176,7 @@ public:
 		
 		prev_dir_ = direction;
 		digitalWrite(DIRECTION, direction);
-        analogWrite(MOTOR, pwm);
+        analogWrite(MOTOR, pwm * modifier_);
     }
     	
     bool prev_dir() const {
@@ -178,6 +187,6 @@ public:
 	inline static N normalize(T value, T min, T max, N norm_min = 0, N norm_max = 255) {
 		return (((norm_max - norm_min) * ((float)(value - min) / (float)(max - min))) + norm_min);
 	}
-} l(5, 4), r(6, 7);
+} l(5, 4, 1.0), r(6, 7, 0.9);
 
 #endif
