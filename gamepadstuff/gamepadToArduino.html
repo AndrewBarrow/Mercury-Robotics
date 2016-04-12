@@ -11,11 +11,25 @@
  
     </head>
     <body>
+	<button id= "Flashlight">Light</button><br>
+	<button id= "CamFront">CamFront</button><br>
+	<button id= "CamClaw">CamClaw</button><br>
+	<button id= "Cam3">Cam3</button><br>
+	<button id= "Cam4">Cam4</button><br>
  
     <div id="gamepadPrompt"></div>
     <div id="gamepadDisplay"></div>
  
     <script>
+		var light=0;
+	Flashlight.addEventListener("click", function()
+	{if(light==0){light=1;}
+		else{light=0;}
+		socket.emit('flashlight',light)});
+	CamFront.addEventListener("click", function(){socket.emit('camera',1)});
+	CamClaw.addEventListener("click", function(){socket.emit('camera',2)});
+	Cam3.addEventListener("click", function(){socket.emit('camera',3)});
+	Cam4.addEventListener("click", function(){socket.emit('camera',4)});
     var hasGP = false;
     var repGP;
     var socket = io();

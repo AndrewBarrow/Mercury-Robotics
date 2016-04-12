@@ -1,5 +1,9 @@
 var Gpio=require('onoff').Gpio;
-var led=new Gpio(4,'out');
+var los=new Gpio(21,'out');
+var selection=new Gpio(4,'out');
+var enable1=new Gpio(17,'out');
+var enable2=new Gpio(18,'out');
+var flashlight=new Gpio(20,'out');
 
 var app = require('express')();
 var http = require('http').Server(app);
@@ -20,8 +24,9 @@ var buffer= new Buffer([2,Bu,Bl,Ly,Lx,Ry,Rx,Lt,Rt]);
 //var ary={0x11,0x22,0x33,0x44,0x55,0x66,0x77,0xFF};
 
 app.get('/', function(req, res){
-   res.sendFile(__dirname + '/gamepadToArduino.html'); //remember eventually this should be the index page again
+   res.sendFile(__dirname + '/gamepadToArduino.html'); 
 });
+
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
@@ -37,6 +42,9 @@ io.on('connection', function(socket)
 	socket.on('LeftX'   ,function(msg){Lx=msg;});
 	socket.on('RightX'  ,function(msg){Rx=msg;});
 	socket.on('TriggerRight',function(msg){Rt=msg;});
+	socket.on('camera',function(msg){camera(msg);});
+	socket.on('flashlight',function(msg){flashlight.writeSync(msg);
+		console.log("flashlight toggled");});
 	socket.on('message',  function(msg)
 	{
 	  console.log(msg);
@@ -44,6 +52,39 @@ io.on('connection', function(socket)
 	  //serialPort.write(msg);
 	});
 });
+
+function camera(cam)
+{
+		 if(cam==1)
+	{console.log("camera front"); //camA
+		selection.writeSync(0);
+		enable1.writeSync(0);
+		enable2.writeSync(1);}
+	else if(cam==2)
+	{console.log("camera claw"); //camB
+		selection.writeSync(1);
+		enable1.writeSync(0);
+		enable2.writeSync(1);}
+	else if(cam==3) 
+	{console.log("camera c"); //camC
+		selection.writeSync(0);
+		enable1.writeSync(1);
+		enable2.writeSync(0);}
+	else if(cam==4)
+	{console.log("camera d"); //camD
+		selection.writeSync(1);
+		enable1.writeSync(1);
+		enable2.writeSync(0);}
+}
+function flashlight(light)
+{
+	if (light==0)
+	{console.log("flashlight off");
+		flashlight.writeSync(0);}
+	else if (light==1)
+	{console.log("flashlight on");
+		flashlight.writeSync(0);}
+}
 
 serialPort.on('open', showPortOpen);
 serialPort.on('data', onData);
@@ -96,12 +137,12 @@ function toSend()
 	serialPort.write(buffer);
 	console.log("cksum= "+controller);
 	//console.log(c));
-	led.writeSync(0);}
+	los.writeSync(0);}
 	else
 	{
 	buffer=new Buffer([2,0,0,0,0,0,0,0,0]);
 	serialPort.write(buffer);
 	//console.log(0x0000000000000000);
-	led.writeSync(1);}
+	los.writeSync(1);}
 	
 }
