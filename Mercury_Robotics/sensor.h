@@ -13,9 +13,9 @@ private:
 
 public:
 	///	Construct an sonar object to represent a sonar on the bot.
-	///	INPUT: echo pin on the Arduino
-	///		   trigger pin on the Arduino
-	///		   safety threshold(s) (cm)
+	///	INPUT:	echo pin on the Arduino
+	///		trigger pin on the Arduino
+	///		safety threshold(s) (cm)
 	Sonar(uint8_t echo_pin, uint8_t trig_pin) :
 		ECHO(echo_pin),
 		TRIG(trig_pin)
@@ -53,13 +53,13 @@ public:
 	}
 	
 	///	Query the distance of the sonar pulse.
-	///	RETURN: pulse distance (cm)
+	///	RETURN:	pulse distance (cm)
 	uint16_t query_distance() const {
 		return ((duration_ / 2) / 29.1);
 	}
 	
 	///	Set the safety threhold mark.
-	///	INPUT: threshold distance (cm)
+	///	INPUT:	threshold distance (cm)
 	void set_threshold(uint16_t threshold) {
 		threshold_ = threshold;
 	}
@@ -83,7 +83,7 @@ public:
 	}
 
 	///	Set an override to be used to disregard the sonar ping.
-	/// INPUT: override state
+	///	INPUT:	override state
 	void set_override(bool state) {
 		override_ = state;
 	}
