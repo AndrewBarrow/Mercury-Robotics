@@ -38,11 +38,11 @@ private:
 	}
 	
 	/// Normalize a number from one range of values to another.
-	///	INPUT: number to normalize
-	///		   original range minimum
-	///		   original range maximum
-	///        new range minimum
-	///		   new range maximum
+	///	INPUT:	number to normalize
+	///		original range minimum
+	///		original range maximum
+	///        	new range minimum
+	///		new range maximum
 	template <typename T, typename N>
 	inline static N normalize(T value, T min, T max, N norm_min = 0, N norm_max = 255) {
 		return (((norm_max - norm_min) * ((float)(value - min) / (float)(max - min))) + norm_min);
@@ -50,10 +50,10 @@ private:
 
 public:
 	///	Construct an servo object to represent a servo on the bot.
-	///	INPUT: servo pin number on the Servo Shield
-	///		   minimum range of motion of the servo between 0 and 4096 (used to prevent damage to the servo)
-	///		   maximum range of motion of the servo between 0 and 4096 (used to prevent damage to the servo)
-	///		   I2C address
+	///	INPUT:	servo pin number on the Servo Shield
+	///		minimum range of motion of the servo between 0 and 4096 (used to prevent damage to the servo)
+	///		maximum range of motion of the servo between 0 and 4096 (used to prevent damage to the servo)
+	///		I2C address
 	Servo(uint8_t servo_pin_number, uint16_t servo_min, uint16_t servo_max, uint8_t addr = 0x40) : 
 		PIN(servo_pin_number), 
 		MIN(servo_min), 
@@ -62,7 +62,7 @@ public:
 	{ }
 	
 	///	Establishes I2C communications with the Servo Shield.
-	///	NOTE: Use servo::setup() below to quickly setup I2C for all servos
+	///	NOTE:	Use servo::setup() below to quickly setup I2C for all servos
 	void begin() {
 		Wire.begin();
 		reset();
@@ -74,8 +74,8 @@ public:
 	}
 	
 	///	Set the frequency for a servo.
-	///	INPUT: frequency (Hz) from 40 to 1000
-	///	NOTE: Use servo::setup() below to quickly setup I2C for all servos
+	///	INPUT:	frequency (Hz) from 40 to 1000
+	///	NOTE:	Use servo::setup() below to quickly setup I2C for all servos
 	void set_freq(float freq = 60) {
 		freq = freq * 0.9;
 		float prescaleval = 25000000;
@@ -96,9 +96,9 @@ public:
 	}
 	
 	///	Move servo to a certain position.
-	///	INPUT: position from range_min to range_max
-	///		   servo minimum range
-	///		   servo maximum range
+	///	INPUT:	position from range_min to range_max
+	///		servo minimum range
+	///		servo maximum range
 	void set_pos(uint16_t position, uint16_t range_min = 0, uint16_t range_max = 100) {
 		if (position > range_max) {
 			position = range_max;
@@ -177,9 +177,9 @@ public:
 	enum Direction : bool { For = 1, Rev = 0 };
 
 	///	Construct an DC motor object to represent a DC motor on the bot.
-	///	INPUT: motor pin on the Arduino
-	///		   direction pin on the Arduino
-	///		   value to modify the PWM being sent to the motor driver board (to check the bot driving straight)
+	///	INPUT:	motor pin on the Arduino
+	///		direction pin on the Arduino
+	///		value to modify the PWM being sent to the motor driver board (to check the bot driving straight)
 	DC(uint8_t motor_pin, uint8_t direction_pin, float modifier) :
 		MOTOR(motor_pin),
 		DIRECTION(direction_pin),
@@ -190,9 +190,9 @@ public:
     	}
     
 	///	Turns the DC motor on at desired speed and direction.
-	///	INPUT: speed from 0 to 254
-	///		   direction, forwards (For) or backwards (Rev)
-	///	NOTE: Once turned on the DC motor does not stop until the speed is set back to 0
+	///	INPUT:	speed from 0 to 254
+	///		direction, forwards (For) or backwards (Rev)
+	///	NOTE:	Once turned on the DC motor does not stop until the speed is set back to 0
 	void drive(uint8_t pwm, bool direction = 1) {
 		if (pwm > 254) {
 			pwm = 254;
@@ -211,11 +211,11 @@ public:
     }
 	
 	/// Normalize a number from one range of values to another.
-	///	INPUT: number to normalize
-	///		   original range minimum
-	///		   original range maximum
-	///        new range minimum
-	///		   new range maximum
+	///	INPUT:	number to normalize
+	///		original range minimum
+	///		original range maximum
+	///		new range minimum
+	///		new range maximum
 	template <typename T, typename N>
 	inline static N normalize(T value, T min, T max, N norm_min = 0, N norm_max = 255) {
 		return (((norm_max - norm_min) * ((float)(value - min) / (float)(max - min))) + norm_min);
