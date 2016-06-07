@@ -12,7 +12,7 @@ struct USB_Input {
 	uint16_t rt;		// Right trigger
 
 	///	Parses an 8 byte message and assigns their values.
-	///	INPUT: size 8 buffer
+	///	INPUT:	size 8 buffer
 	void assign(uint8_t b[]) {
 		digital = ((b[0] << 8) + b[1]);
 		lsy = b[2];
