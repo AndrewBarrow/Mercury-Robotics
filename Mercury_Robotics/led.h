@@ -7,11 +7,15 @@ private:
 	bool state_;
 	
 public:
+	///	Construct an LED object to represent a LED on the bot.
+	///	INPUT: LED pin number on the Arduino
 	LED(uint8_t led_pin) : PIN(led_pin) {
 		pinMode(PIN, OUTPUT);
 		state_ = false;
 	}
 	
+	///	Turn LED light on or off.
+	///	INPUT: LED state
 	void toggle(bool on) {
 		state_ = on;
 		digitalWrite(PIN, state_);

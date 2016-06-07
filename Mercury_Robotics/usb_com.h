@@ -1,15 +1,18 @@
 #ifndef USB_COM_H
 #define USB_COM_H
 
+///	Assigns and stores button states and analog positions.
 struct USB_Input {
-	uint16_t digital;
-	uint16_t lsy;	// make it uint8_t?
-	uint16_t lsx;	// make it uint8_t?
-	uint16_t rsy;	// make it uint8_t?
-	uint16_t rsx;	// make it uint8_t?
-	uint16_t lt;	// make it uint8_t?
-	uint16_t rt;	// make it uint8_t?
+	uint16_t digital;	// States of all digital buttons 
+	uint16_t lsy;		// Left stick - Yaxis
+	uint16_t lsx;		// Left stick - Xaxis
+	uint16_t rsy;		// Right stick - Yaxis
+	uint16_t rsx;		// Right stick - Xaxis
+	uint16_t lt;		// Left trigger
+	uint16_t rt;		// Right trigger
 
+	///	Parses an 8 byte message and assigns their values.
+	///	INPUT: size 8 buffer
 	void assign(uint8_t b[]) {
 		digital = ((b[0] << 8) + b[1]);
 		lsy = b[2];
@@ -21,6 +24,7 @@ struct USB_Input {
 	}
 } usb;
 
+///	Masks to be used along with digital from USB_Input to determine whether or not a button has been pressed.
 struct Digital_Button_Mask {
 	uint16_t BACK = 0x2000;
 	uint16_t START = 0x1000;
